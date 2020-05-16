@@ -1,3 +1,23 @@
-.content {
-  background-color: #d3d8e0;
+article {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 6px 6px 6px 32px;
+  min-height: 100%;
+  align-items: stretch;
+  box-sizing: border-box;
+}
+
+#main-edit-area {
+  display: flex;
+  flex-grow: 1;
+}
+
+#main-edit-area quill-buffer {
+  flex-grow: 1;
+}
+
+#main-edit-area,
+quill-status-bar {
+  flex-shrink: 0;
 }

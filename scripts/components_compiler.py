@@ -5,7 +5,7 @@ import os
 scriptsdir = os.path.dirname(os.path.realpath(__file__))
 componentsdir = os.path.join(scriptsdir, "..", "src/components")
 components = os.listdir(componentsdir)
-outputdir = os.path.join(scriptsdir, "..", "public")
+outputdir = os.path.join(scriptsdir, "..", "public/js")
 for c in components:
     component_dom = ""
     with open(os.path.join(componentsdir, c, c + ".html")) as template:
