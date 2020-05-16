@@ -5,7 +5,7 @@ function createWindow() {
 
   const win = new BrowserWindow({
     width: 1600,
-    height: 200,
+    height: 900,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -14,7 +14,7 @@ function createWindow() {
 
   win.loadFile("main.html");
 
-  //   win.webContents.openDevTools();
+  win.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);
