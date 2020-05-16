@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Quill</title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    />
+    <script src="./node_modules/mousetrap/mousetrap.min.js"></script>
+    <script src="./src/commands/default.js"></script>
+
+    <script
+      type="module"
+      src="./src/components/quill-editor/quill-editor-component.js"
+    ></script>
+  </head>
+
+  <body>
+    <quill-editor></quill-editor>
+  </body>
+</html>
