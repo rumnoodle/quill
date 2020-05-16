@@ -1,4 +1,49 @@
 #buffer > textarea {
   background-color: var(--main-bg-color);
   color: var(--main-color);
+  border: none;
+  resize: none;
+  outline: none;
+  width: 98%;
+  height: 100%;
+}
+
+#buffer {
+  height: 98%;
+}
+
+::-webkit-scrollbar {
+  width: var(--scrollbar-width); /* for vertical scrollbars */
+  height: var(--scrollbar-width); /* for horizontal scrollbars */
+  cursor: default;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg-color);
+  border: 1px solid var(--main-color);
+  border-radius: var(--scrollbar-border-radius);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--main-bg-color);
+  border: 1px solid var(--main-color);
+  border-radius: var(--scrollbar-border-radius);
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-button {
+  background: var(--main-bg-color);
+  height: var(--scrollbar-width);
+  width: var(--scrollbar-width);
+  border-radius: var(--scrollbar-border-radius);
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-button:start {
+  border: 1px solid var(--main-color);
+}
+
+::-webkit-scrollbar-button:end {
+  border: 1px solid var(--main-color);
+  border-top: none;
 }
