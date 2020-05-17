@@ -1,7 +1,8 @@
 const fs = require("fs");
 
 export default class Commands {
-  constructor() {
+  constructor(shadows) {
+    this.shadows = shadows;
     this.commands = {};
 
     (async () => {
@@ -15,5 +16,9 @@ export default class Commands {
         file = eventsDir.readSync();
       }
     })();
+  }
+
+  run(command) {
+    this.commands[command](this.shadows);
   }
 }

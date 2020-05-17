@@ -26,7 +26,7 @@ quill-status-bar {
 }
 
 quill-action-bar {
-  flex-shrink: status0;
+  flex-shrink: 0;
   padding-bottom: 6px;
   color: var(--secondary-color);
 }
