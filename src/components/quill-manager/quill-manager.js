@@ -4,6 +4,10 @@ export default class QuillManager extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = "";
   }
+
+  //   static thisCustomFunction() {
+  //     return { quillManager: this.shadowRoot };
+  //   }
 }
 
 if (!customElements.get("quill-manager")) {

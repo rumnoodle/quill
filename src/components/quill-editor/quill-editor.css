@@ -24,3 +24,9 @@ quill-status-bar {
   padding-top: 6px;
   color: var(--secondary-color);
 }
+
+quill-action-bar {
+  flex-shrink: status0;
+  padding-bottom: 6px;
+  color: var(--secondary-color);
+}

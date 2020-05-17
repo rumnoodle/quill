@@ -1,8 +1,9 @@
 import Commands from "./commands.js";
 
 export default class EventHandler {
-  constructor() {
-    const commands = new Commands();
+  constructor(domMap) {
+    console.log(domMap);
+    this.commands = new Commands(domMap);
     window.addEventListener("keydown", (e) => {
       let commandKeys = [
         e.ctrlKey ? "ctrl" : undefined,
@@ -14,14 +15,8 @@ export default class EventHandler {
         .join("-");
 
       if (/^[a-zA-Z]$/.test(e.key) && commandKeys) {
-        handleCommand(`${commandKeys}-${e.key.toLowerCase()}`);
+        this.commands.handle(`${commandKeys}-${e.key.toLowerCase()}`);
       }
-      //   console.log(command);
-      //   console.log(e);
     });
-  }
-
-  handleCommand(command) {
-    console.log(command);
   }
 }
