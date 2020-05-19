@@ -14,11 +14,8 @@ export default {
   },
 
   emit(event, data) {
-    console.log(event);
-    console.log(data);
     if (listeners[event]) {
       listeners[event].forEach((callback) => {
-        console.log(data);
         callback(data);
       });
     }

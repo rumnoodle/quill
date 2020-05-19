@@ -6,17 +6,26 @@ export default class QuillStatusBar extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = "";
 
-    EventBroker.registerListener("errorStatus", (data) => {
+    EventBroker.registerListener("error", (data) => {
       this.handleError(data);
+    });
+
+    EventBroker.registerListener("fileOpened", (filename) => {
+      this.handleFile(filename);
     });
   }
 
   handleError(data) {
-    console.log(data);
     const statusBar = this.shadowRoot.getElementById("status-bar");
     statusBar.innerHTML = data.message;
     statusBar.className = "";
     statusBar.classList.add("error");
+  }
+
+  handleFile(filename) {
+    const statusBar = this.shadowRoot.getElementById("status-bar");
+    statusBar.innerHTML = filename;
+    statusBar.className = "";
   }
 }
 

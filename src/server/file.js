@@ -2,8 +2,8 @@ const fs = require("fs");
 
 export function open(path) {
   try {
-    const contents = fs.readFileSync(path);
-    return { status: "ok", contents: contents };
+    const content = fs.readFileSync(path);
+    return { status: "ok", content: content };
   } catch (error) {
     let message = `Could not open file ${path}`;
 
