@@ -1,4 +1,4 @@
-const fs = require("fs");
+import { openDirectory } from "./server/file.js";
 
 export default class Commands {
   constructor(shadows) {
@@ -6,7 +6,7 @@ export default class Commands {
     this.commands = {};
 
     (async () => {
-      const eventsDir = fs.opendirSync("./src/commands");
+      const eventsDir = openDirectory("./src/commands");
       let file = eventsDir.readSync();
 
       while (file) {

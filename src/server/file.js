@@ -15,4 +15,6 @@ export function open(path) {
   }
 }
 
-export function openDirectory(path) {}
+export function openDirectory(path) {
+  return fs.opendirSync(path);
+}
