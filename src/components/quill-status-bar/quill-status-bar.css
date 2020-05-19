@@ -1,3 +1,9 @@
-* {
+#status-bar {
   font-style: italic;
+  padding: 4px;
+}
+
+#status-bar.error {
+  background-color: var(--error-bg-color);
+  color: var(--error-color);
 }

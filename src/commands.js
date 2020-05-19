@@ -19,6 +19,10 @@ export default class Commands {
   }
 
   run(command) {
-    this.commands[command](this.shadows);
+    if (this.commands[command]) {
+      this.commands[command](this.shadows);
+    } else {
+      // do something here, maybe emit message that command is missing. Maybe log something
+    }
   }
 }

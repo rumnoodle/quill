@@ -7,8 +7,6 @@ export default {
     }
 
     listeners[event].push(callback);
-    console.log(listeners);
-    console.log(listeners[event]);
   },
 
   unregisterListener: (event, callback) => {
@@ -16,8 +14,13 @@ export default {
   },
 
   emit(event, data) {
-    listeners[event].forEach((callback) => {
-      callback(data);
-    });
+    console.log(event);
+    console.log(data);
+    if (listeners[event]) {
+      listeners[event].forEach((callback) => {
+        console.log(data);
+        callback(data);
+      });
+    }
   },
 };
