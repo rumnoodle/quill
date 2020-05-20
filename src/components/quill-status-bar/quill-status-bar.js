@@ -3,6 +3,7 @@ import EventBroker from "../event-broker.js";
 export default class QuillStatusBar extends HTMLElement {
   constructor() {
     super();
+    this.currentMessage = "";
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = "";
 
@@ -11,7 +12,13 @@ export default class QuillStatusBar extends HTMLElement {
     });
 
     EventBroker.registerListener("fileOpened", (filename) => {
-      this.handleFile(filename);
+      this.currentMessage = filename;
+      this.handleInfo(filename);
+    });
+
+    EventBroker.registerListener("fileSaved", (filename) => {
+      const content = `${filename} (saved)`;
+      this.handleInfo(content);
     });
   }
 
@@ -20,12 +27,25 @@ export default class QuillStatusBar extends HTMLElement {
     statusBar.innerHTML = data.message;
     statusBar.className = "";
     statusBar.classList.add("error");
+
+    setTimeout(() => {
+      statusBar.className = "";
+      statusBar.className = "default-from-error";
+      statusBar.innerHTML = this.currentMessage;
+    }, 5000);
   }
 
-  handleFile(filename) {
+  handleInfo(filename) {
     const statusBar = this.shadowRoot.getElementById("status-bar");
     statusBar.innerHTML = filename;
     statusBar.className = "";
+    statusBar.classList.add("info");
+
+    setTimeout(() => {
+      statusBar.className = "";
+      statusBar.className = "default-from-info";
+      statusBar.innerHTML = this.currentMessage;
+    }, 3000);
   }
 }
 

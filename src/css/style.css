@@ -6,6 +6,9 @@
   --error-bg-color: hsl(00, 90%, 28%);
   --error-color: hsl(00, 90%, 90%);
 
+  --info-bg-color: rgb(40, 136, 7);
+  --info-color: hsl(40, 90%, 90%);
+
   --scrollbar-bg-color: hsl(210, 28%, 35%);
   --scrollbar-color: hsl(210, 28%, 35%);
   --scrollbar-width: 10px;

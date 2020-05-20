@@ -3,7 +3,62 @@
   padding: 4px;
 }
 
+#status-bar.default-from-error {
+  animation-name: default-from-error-animation;
+  animation-duration: 0.6s;
+}
+
+#status-bar.default-from-info {
+  animation-name: default-from-info-animation;
+  animation-duration: 0.6s;
+}
+
 #status-bar.error {
   background-color: var(--error-bg-color);
   color: var(--error-color);
+  animation-name: error-animation;
+  animation-duration: 0.6s;
+}
+
+#status-bar.info {
+  background-color: var(--info-bg-color);
+  color: var(--info-color);
+  animation-name: info-animation;
+  animation-duration: 0.6s;
+}
+
+@keyframes default-from-error-animation {
+  from {
+    background-color: var(--error-bg-color);
+  }
+  to {
+    background-color: var(--main-bg-color);
+  }
+}
+
+@keyframes error-animation {
+  from {
+    background-color: var(--main-bg-color);
+  }
+  to {
+    background-color: var(--error-bg-color);
+  }
+}
+
+@keyframes default-from-info-animation {
+  from {
+    background-color: var(--info-bg-color);
+  }
+  to {
+    background-color: var(--main-bg-color);
+  }
+}
+
+@keyframes info-animation {
+  from {
+    background-color: var(--main-bg-color);
+  }
+  to {
+    background-color: var(--info-bg-color);
+  }
 }
