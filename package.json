@@ -1,6 +1,6 @@
 {
   "name": "quill",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "A text editor",
   "main": "main.js",
   "scripts": {
@@ -20,7 +20,7 @@
   "dependencies": {},
   "nodemonConfig": {
     "ignore": [
-      "public/js"
+      "src/compiled"
     ]
   }
 }

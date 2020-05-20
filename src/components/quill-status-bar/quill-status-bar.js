@@ -1,4 +1,4 @@
-import EventBroker from "../../src/event-broker.js";
+import EventBroker from "../event-broker.js";
 
 export default class QuillStatusBar extends HTMLElement {
   constructor() {
