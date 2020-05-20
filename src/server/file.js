@@ -15,8 +15,8 @@ export function open(path) {
   }
 }
 
-export function save(path) {
-  // implement
+export function save(path, content) {
+  fs.writeFileSync(path, content);
 }
 
 export function openDirectory(path) {
