@@ -1,3 +1,6 @@
-div {
-  border: 1px dotted white;
+#quill-manager {
+  display: none;
+  height: 100%;
+  margin-left: 24px;
+  padding-left: 12px;
 }
