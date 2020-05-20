@@ -7,15 +7,19 @@ export default class QuillBuffer extends HTMLElement {
     this.shadowRoot.innerHTML = "";
 
     EventBroker.registerListener("fileContentFetched", (data) => {
-      this.loadContents(data);
+      this.loadContent(data);
     });
   }
 
-  loadContents({ file, content }) {
+  loadContent({ file, content }) {
     const textArea = this.shadowRoot.getElementById("text-area");
     textArea.value = content;
     textArea.focus();
     EventBroker.emit("fileOpened", file);
+  }
+
+  getContent() {
+    return this.shadowRoot.getElementById("text-area").value;
   }
 }
 
