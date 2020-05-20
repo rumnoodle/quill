@@ -15,6 +15,10 @@ export function open(path) {
   }
 }
 
+export function save(path) {
+  // implement
+}
+
 export function openDirectory(path) {
   return fs.opendirSync(path);
 }

@@ -6,6 +6,11 @@ export default class QuillManager extends HTMLElement {
     this.openFiles = {};
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = "";
+    this.currentFile = "";
+
+    EventBroker.registerListener("fileOpened", (filename) => {
+      this.currentFile = filename;
+    });
   }
 }
 
