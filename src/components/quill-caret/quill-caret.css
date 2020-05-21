@@ -1,0 +1,6 @@
+#quill-caret {
+  display: inline-block;
+  height: 1em;
+  width: 1ch;
+  background-color: red;
+}

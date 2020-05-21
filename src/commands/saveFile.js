@@ -5,7 +5,7 @@ export const command = "ctrl-s";
 
 export function callback(shadows) {
   const path = shadows.manager.currentFile;
-  const content = shadows.buffer.getContent();
+  const content = shadows.editor.getContent();
 
   if (path !== "") {
     save(path, content);

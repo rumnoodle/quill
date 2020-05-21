@@ -3,23 +3,35 @@ import EventBroker from "../event-broker.js";
 export default class QuillBuffer extends HTMLElement {
   constructor() {
     super();
+    this.caret = null;
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = "";
 
-    EventBroker.registerListener("fileContentFetched", (data) => {
-      this.loadContent(data);
+    this.editArea = this.shadowRoot.getElementById("editable");
+    this.lines = this.editArea.getElementsByClassName("line");
+
+    EventBroker.registerListener("input", (key) => {
+      this.handleInput(key);
     });
   }
 
-  loadContent({ file, content }) {
-    const textArea = this.shadowRoot.getElementById("text-area");
-    textArea.value = content;
-    textArea.focus();
-    EventBroker.emit("fileOpened", file);
+  handleInput(key) {
+    const preCaret = this.shadowRoot.getElementById("pre-caret");
+    preCaret.textContent += key;
   }
 
-  getContent() {
-    return this.shadowRoot.getElementById("text-area").value;
+  setCaret(caret) {
+    this.caret = caret;
+
+    const preCaret = document.createElement("div");
+    preCaret.id = "pre-caret";
+    const postCaret = document.createElement("div");
+    postCaret.id = "pre-caret";
+
+    const firstLine = this.lines[0];
+    firstLine.appendChild(preCaret);
+    firstLine.appendChild(caret);
+    firstLine.appendChild(postCaret);
   }
 }
 

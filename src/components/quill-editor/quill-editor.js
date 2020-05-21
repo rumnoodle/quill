@@ -1,9 +1,6 @@
 import QuillBuffer from "./quill-buffer-component.js";
-import QuillManager from "./quill-manager-component.js";
-import QuillActionBar from "./quill-action-bar-component.js";
-import QuillStatusBar from "./quill-status-bar-component.js";
-
-import CommandHandler from "../../src/command-handler.js";
+import QuillCaret from "./quill-caret-component.js";
+import EventBroker from "../event-broker.js";
 
 export default class QuillEditor extends HTMLElement {
   constructor() {
@@ -11,37 +8,27 @@ export default class QuillEditor extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = "";
 
-    const article = document.createElement("article");
-
-    const actionBar = new QuillActionBar();
-    article.appendChild(actionBar);
-
-    let mainEditArea = document.createElement("section");
-    mainEditArea.id = "main-edit-area";
-
     const buffer = new QuillBuffer();
-    buffer.id = "quill-buffer";
-    mainEditArea.appendChild(buffer);
 
-    const manager = new QuillManager();
-    manager.id = "qiull-manager";
-    mainEditArea.appendChild(manager);
+    const caret = new QuillCaret();
+    buffer.setCaret(caret);
 
-    article.appendChild(mainEditArea);
+    this.shadowRoot.appendChild(buffer);
 
-    const statusBar = new QuillStatusBar();
-    article.appendChild(statusBar);
+    EventBroker.registerListener("fileContentFetched", (data) => {
+      this.loadContent(data);
+    });
+  }
 
-    this.shadowRoot.appendChild(article);
+  loadContent({ file, content }) {
+    const textArea = this.shadowRoot.getElementById("text-area");
+    textArea.value = content;
+    textArea.focus();
+    EventBroker.emit("fileOpened", file);
+  }
 
-    this.shadows = {
-      actionBar: actionBar,
-      buffer: buffer,
-      manager: manager,
-      statusBar: statusBar,
-    };
-
-    new CommandHandler(this.shadows);
+  getContent() {
+    return this.shadowRoot.getElementById("text-area").value;
   }
 }
 
