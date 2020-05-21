@@ -35,7 +35,6 @@ export default class InputHandler {
 
   isStopKey(key) {
     const stopKeys = [
-      "Enter",
       "Backspace",
       "Delete",
       "ArrowUp",

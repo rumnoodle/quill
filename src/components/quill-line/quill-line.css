@@ -1,5 +1,6 @@
 #line {
   white-space: nowrap;
+  min-width: 100%;
 }
 
 quill-caret,

@@ -5,9 +5,7 @@ export default class QuillBuffer extends HTMLElement {
   constructor() {
     super();
     this.active = true;
-    this.lines = [];
     this.currentLine = new QuillLine();
-    this.lines.push(this.currentLine);
 
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = "";
@@ -30,7 +28,17 @@ export default class QuillBuffer extends HTMLElement {
 
   handleInput(key) {
     if (this.active) {
-      this.currentLine.handleInput(key);
+      if (key === "Enter") {
+        const caret = this.currentLine.getCaret();
+        const content = this.currentLine.splitAtCaret();
+        const newLine = new QuillLine(content);
+
+        newLine.setCaret(caret);
+        this.editArea.insertBefore(newLine, this.currentLine.nextSibling);
+        this.currentLine = newLine;
+      } else {
+        this.currentLine.handleInput(key);
+      }
     }
   }
 
