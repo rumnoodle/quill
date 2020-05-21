@@ -33,13 +33,27 @@ export default class QuillLine extends HTMLElement {
     if (step === "character" && beforeTextLength > 0) {
       afterCaret.textContent =
         this.caret.getCharacter() + afterCaret.textContent;
+
       this.caret.setCharacter(
         beforeCaret.textContent.charAt(beforeTextLength - 1)
       );
+
       beforeCaret.textContent = beforeCaret.textContent.substring(
         0,
         beforeTextLength - 1
       );
+    }
+  }
+
+  moveCaretRight(step) {
+    const beforeCaret = this.shadowRoot.getElementById("before-caret");
+    const afterCaret = this.shadowRoot.getElementById("after-caret");
+    const afterTextLength = afterCaret.textContent.length;
+
+    if (step === "character" && afterTextLength > 0) {
+      beforeCaret.textContent += this.caret.getCharacter();
+      this.caret.setCharacter(afterCaret.textContent.charAt(0));
+      afterCaret.textContent = afterCaret.textContent.substring(1);
     }
   }
 }

@@ -1,3 +1,7 @@
+#line {
+  white-space: nowrap;
+}
+
 quill-caret,
 div {
   display: inline-block;

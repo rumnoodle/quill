@@ -31,6 +31,10 @@ export default class QuillBuffer extends HTMLElement {
     switch (action.direction) {
       case "left":
         this.currentLine.moveCaretLeft(action.step);
+        break;
+      case "right":
+        this.currentLine.moveCaretRight(action.step);
+        break;
     }
   }
 
