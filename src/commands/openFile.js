@@ -9,15 +9,15 @@ export function callback(shadows) {
 }
 
 function handleFileAction(path) {
-  const fileContent = open(path);
+  const { status, content } = open(path);
 
-  if (fileContent.status === "ok") {
+  if (status === "ok") {
     EventBroker.emit("fileContentFetched", {
       file: path,
-      content: fileContent.content,
+      content: content,
     });
-  } else if (fileContent.status === "error") {
-    EventBroker.emit("error", { message: fileContent.message });
+  } else if (status === "error") {
+    EventBroker.emit("error", { message: content });
   }
 
   EventBroker.unregisterListener("fileAction", handleFileAction);

@@ -1,10 +1,12 @@
 import QuillLine from "./quill-line-component.js";
+import QuillCaret from "./quill-caret-component.js";
 import EventBroker from "../event-broker.js";
 
 export default class QuillBuffer extends HTMLElement {
   constructor() {
     super();
     this.active = true;
+    this.file = "";
     this.currentLine = new QuillLine();
 
     this.attachShadow({ mode: "open" });
@@ -23,6 +25,10 @@ export default class QuillBuffer extends HTMLElement {
 
     EventBroker.registerListener("move", (action) => {
       this.handleMove(action);
+    });
+
+    EventBroker.registerListener("fileContentFetched", (lines) => {
+      this.loadContent(lines);
     });
   }
 
@@ -57,6 +63,22 @@ export default class QuillBuffer extends HTMLElement {
 
   setCaret(caret) {
     this.currentLine.setCaret(caret);
+  }
+
+  loadContent({ file, content }) {
+    this.editArea.innerHTML = "";
+    this.currentLine = null;
+    this.file = file;
+    content.forEach((line) => {
+      console.log(line);
+      const newLine = new QuillLine(line);
+      this.editArea.appendChild(newLine);
+
+      if (!this.currentLine) {
+        this.currentLine = newLine;
+        this.currentLine.setCaret(new QuillCaret());
+      }
+    });
   }
 }
 

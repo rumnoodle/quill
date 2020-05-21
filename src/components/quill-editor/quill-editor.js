@@ -13,17 +13,6 @@ export default class QuillEditor extends HTMLElement {
 
     const caret = new QuillCaret();
     buffer.setCaret(caret);
-
-    EventBroker.registerListener("fileContentFetched", (data) => {
-      this.loadContent(data);
-    });
-  }
-
-  loadContent({ file, content }) {
-    const textArea = this.shadowRoot.getElementById("text-area");
-    textArea.value = content;
-    textArea.focus();
-    EventBroker.emit("fileOpened", file);
   }
 
   getContent() {

@@ -2,8 +2,14 @@ const fs = require("fs");
 
 export function open(path) {
   try {
-    const content = fs.readFileSync(path);
-    return { status: "ok", content: content };
+    const content = fs.readFileSync(path, { encoding: "utf8" });
+    return {
+      status: "ok",
+      content: content
+        .split(" ")
+        .join("\xa0")
+        .split(/\r\n|\r|\n/),
+    };
   } catch (error) {
     let message = `Could not open file ${path}`;
 
@@ -11,7 +17,7 @@ export function open(path) {
       message = `File ${path} does not exist`;
     }
 
-    return { status: "error", message: message };
+    return { status: "error", content: message };
   }
 }
 

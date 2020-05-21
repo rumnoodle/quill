@@ -16,10 +16,6 @@ export default class QuillLine extends HTMLElement {
     beforeCaret.textContent += key;
   }
 
-  setContent(content) {
-    this.line.content = content;
-  }
-
   setCaret(caret) {
     this.caret = caret;
     const beforeCaret = document.createElement("div");
