@@ -1,14 +1,18 @@
+import QuillLine from "./quill-line-component.js";
 import EventBroker from "../event-broker.js";
 
 export default class QuillBuffer extends HTMLElement {
   constructor() {
     super();
-    this.caret = null;
+    this.lines = [];
+    this.currentLine = new QuillLine();
+    this.lines.push(this.currentLine);
+
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = "";
 
     this.editArea = this.shadowRoot.getElementById("editable");
-    this.lines = this.editArea.getElementsByClassName("line");
+    this.editArea.appendChild(this.currentLine);
 
     EventBroker.registerListener("input", (key) => {
       this.handleInput(key);
@@ -16,22 +20,11 @@ export default class QuillBuffer extends HTMLElement {
   }
 
   handleInput(key) {
-    const preCaret = this.shadowRoot.getElementById("pre-caret");
-    preCaret.textContent += key;
+    this.currentLine.handleInput(key);
   }
 
   setCaret(caret) {
-    this.caret = caret;
-
-    const preCaret = document.createElement("div");
-    preCaret.id = "pre-caret";
-    const postCaret = document.createElement("div");
-    postCaret.id = "pre-caret";
-
-    const firstLine = this.lines[0];
-    firstLine.appendChild(preCaret);
-    firstLine.appendChild(caret);
-    firstLine.appendChild(postCaret);
+    this.currentLine.setCaret(caret);
   }
 }
 

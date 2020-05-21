@@ -9,11 +9,10 @@ export default class QuillEditor extends HTMLElement {
     this.shadowRoot.innerHTML = "";
 
     const buffer = new QuillBuffer();
+    this.shadowRoot.appendChild(buffer);
 
     const caret = new QuillCaret();
     buffer.setCaret(caret);
-
-    this.shadowRoot.appendChild(buffer);
 
     EventBroker.registerListener("fileContentFetched", (data) => {
       this.loadContent(data);

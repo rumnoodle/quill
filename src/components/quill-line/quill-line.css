@@ -1,0 +1,8 @@
+quill-caret,
+div {
+  display: inline-block;
+}
+
+quill-caret {
+  vertical-align: sub;
+}

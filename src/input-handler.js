@@ -20,9 +20,46 @@ export default class InputHandler {
         } catch (error) {
           // Do nothing here as trying to perform an action that isn't here isn't necessarily an issue
         }
-      } else if (!commandKeys) {
+      } else if (
+        (!commandKeys || commandKeys === "shift") &&
+        !this.isStopKey(e.key)
+      ) {
         EventBroker.emit("input", e.key);
       }
     });
+  }
+
+  isStopKey(key) {
+    const stopKeys = [
+      "Enter",
+      "Backspace",
+      "Delete",
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowRight",
+      "ArrowLeft",
+      "CapsLock",
+      "Insert",
+      "Escape",
+      "AltGraph",
+      "Home",
+      "End",
+      "PageUp",
+      "PageDown",
+      "F1",
+      "F2",
+      "F3",
+      "F4",
+      "F5",
+      "F6",
+      "F7",
+      "F8",
+      "F9",
+      "F10",
+      "F11",
+      "F12",
+      "Shift",
+    ];
+    return stopKeys.indexOf(key) !== -1;
   }
 }
