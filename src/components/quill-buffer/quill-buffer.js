@@ -17,10 +17,21 @@ export default class QuillBuffer extends HTMLElement {
     EventBroker.registerListener("input", (key) => {
       this.handleInput(key);
     });
+
+    EventBroker.registerListener("move", (action) => {
+      this.handleMove(action);
+    });
   }
 
   handleInput(key) {
     this.currentLine.handleInput(key);
+  }
+
+  handleMove(action) {
+    switch (action.direction) {
+      case "left":
+        this.currentLine.moveCaretLeft(action.step);
+    }
   }
 
   setCaret(caret) {

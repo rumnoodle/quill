@@ -14,14 +14,33 @@ export default class QuillLine extends HTMLElement {
   }
 
   setCaret(caret) {
+    this.caret = caret;
     const beforeCaret = document.createElement("div");
     beforeCaret.id = "before-caret";
     const afterCaret = document.createElement("div");
     afterCaret.id = "after-caret";
 
     this.line.insertBefore(afterCaret, this.line.firstChild);
-    this.line.insertBefore(caret, this.line.firstChild);
+    this.line.insertBefore(this.caret, this.line.firstChild);
     this.line.insertBefore(beforeCaret, this.line.firstChild);
+  }
+
+  moveCaretLeft(step) {
+    const afterCaret = this.shadowRoot.getElementById("after-caret");
+    const beforeCaret = this.shadowRoot.getElementById("before-caret");
+    const beforeTextLength = beforeCaret.textContent.length;
+
+    if (step === "character" && beforeTextLength > 0) {
+      afterCaret.textContent =
+        this.caret.getCharacter() + afterCaret.textContent;
+      this.caret.setCharacter(
+        beforeCaret.textContent.charAt(beforeTextLength - 1)
+      );
+      beforeCaret.textContent = beforeCaret.textContent.substring(
+        0,
+        beforeTextLength - 1
+      );
+    }
   }
 }
 

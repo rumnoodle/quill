@@ -4,6 +4,9 @@ import EventBroker from "./event-broker.js";
 export default class InputHandler {
   constructor(shadows) {
     this.commands = new Commands(shadows);
+    this.replacements = {
+      " ": "\xa0",
+    };
     window.addEventListener("keydown", (e) => {
       let commandKeys = [
         e.ctrlKey ? "ctrl" : undefined,
@@ -19,12 +22,13 @@ export default class InputHandler {
           this.commands.run(`${commandKeys}-${e.key.toLowerCase()}`);
         } catch (error) {
           // Do nothing here as trying to perform an action that isn't here isn't necessarily an issue
+          // console.log(error);
         }
       } else if (
         (!commandKeys || commandKeys === "shift") &&
         !this.isStopKey(e.key)
       ) {
-        EventBroker.emit("input", e.key);
+        EventBroker.emit("input", this.inputConverter(e.key));
       }
     });
   }
@@ -61,5 +65,9 @@ export default class InputHandler {
       "Shift",
     ];
     return stopKeys.indexOf(key) !== -1;
+  }
+
+  inputConverter(key) {
+    return this.replacements[key] !== undefined ? this.replacements[key] : key;
   }
 }

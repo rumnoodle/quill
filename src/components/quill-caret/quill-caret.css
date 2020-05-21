@@ -2,5 +2,6 @@
   display: inline-block;
   height: 1.1em;
   width: 1ch;
-  background-color: red;
+  background-color: var(--secondary-color);
+  color: var(--main-bg-color);
 }
