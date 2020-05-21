@@ -4,6 +4,7 @@ import EventBroker from "../event-broker.js";
 export default class QuillBuffer extends HTMLElement {
   constructor() {
     super();
+    this.active = true;
     this.lines = [];
     this.currentLine = new QuillLine();
     this.lines.push(this.currentLine);
@@ -13,6 +14,10 @@ export default class QuillBuffer extends HTMLElement {
 
     this.editArea = this.shadowRoot.getElementById("editable");
     this.editArea.appendChild(this.currentLine);
+
+    EventBroker.registerListener("mode", (name) => {
+      this.active = name === "default" ? true : false;
+    });
 
     EventBroker.registerListener("input", (key) => {
       this.handleInput(key);
@@ -24,17 +29,21 @@ export default class QuillBuffer extends HTMLElement {
   }
 
   handleInput(key) {
-    this.currentLine.handleInput(key);
+    if (this.active) {
+      this.currentLine.handleInput(key);
+    }
   }
 
   handleMove(action) {
-    switch (action.direction) {
-      case "left":
-        this.currentLine.moveCaretLeft(action.step);
-        break;
-      case "right":
-        this.currentLine.moveCaretRight(action.step);
-        break;
+    if (this.active) {
+      switch (action.direction) {
+        case "left":
+          this.currentLine.moveCaretLeft(action.step);
+          break;
+        case "right":
+          this.currentLine.moveCaretRight(action.step);
+          break;
+      }
     }
   }
 

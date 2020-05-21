@@ -8,6 +8,7 @@ export default class QuillActionBar extends HTMLElement {
   }
 
   requestAction(name) {
+    EventBroker.emit("mode", "action");
     const actionBar = this.shadowRoot.getElementById("action-bar");
     actionBar.classList.remove("hidden");
 
@@ -15,6 +16,7 @@ export default class QuillActionBar extends HTMLElement {
     inputElem.focus();
     inputElem.addEventListener("keypress", (e) => {
       if (e.key === "Enter") {
+        EventBroker.emit("mode", "default");
         EventBroker.emit(name, inputElem.value);
         actionBar.classList.add("hidden");
         inputElem.value = "";
