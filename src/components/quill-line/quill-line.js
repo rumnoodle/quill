@@ -16,6 +16,25 @@ export default class QuillLine extends HTMLElement {
     beforeCaret.textContent += key;
   }
 
+  getContent() {
+    let content = "";
+    if (!this.caret) {
+      content = this.line.textContent;
+    } else {
+      const beforeCaret = this.shadowRoot.getElementById("before-caret");
+      const afterCaret = this.shadowRoot.getElementById("after-caret");
+      content =
+        beforeCaret.textContent +
+        this.caret.getCharacter() +
+        afterCaret.textContent;
+    }
+    return content;
+  }
+
+  getCaret() {
+    return this.caret;
+  }
+
   setCaret(caret) {
     this.caret = caret;
     const beforeCaret = document.createElement("div");
@@ -32,10 +51,6 @@ export default class QuillLine extends HTMLElement {
     this.line.insertBefore(afterCaret, this.line.firstChild);
     this.line.insertBefore(this.caret, this.line.firstChild);
     this.line.insertBefore(beforeCaret, this.line.firstChild);
-  }
-
-  getCaret() {
-    return this.caret;
   }
 
   unsetCaret() {

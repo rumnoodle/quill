@@ -8,15 +8,20 @@ export default class QuillEditor extends HTMLElement {
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = "";
 
-    const buffer = new QuillBuffer();
-    this.shadowRoot.appendChild(buffer);
+    this.buffer = new QuillBuffer();
+    this.shadowRoot.appendChild(this.buffer);
 
     const caret = new QuillCaret();
-    buffer.setCaret(caret);
+    this.buffer.setCaret(caret);
+  }
+
+  getFilePath() {
+    return this.buffer.getFilePath();
   }
 
   getContent() {
-    return this.shadowRoot.getElementById("text-area").value;
+    const lines = this.buffer.getContentAsLines();
+    return lines.join("\n");
   }
 }
 

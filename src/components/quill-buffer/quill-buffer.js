@@ -7,6 +7,7 @@ export default class QuillBuffer extends HTMLElement {
     super();
     this.active = true;
     this.file = "";
+    this.lines = [];
     this.currentLine = new QuillLine();
 
     this.attachShadow({ mode: "open" });
@@ -32,12 +33,24 @@ export default class QuillBuffer extends HTMLElement {
     });
   }
 
+  getFilePath() {
+    return this.file;
+  }
+
+  getContentAsLines() {
+    return this.lines.map((line) => {
+      return line.getContent();
+    });
+  }
+
   handleInput(key) {
     if (this.active) {
       if (key === "Enter") {
         const caret = this.currentLine.getCaret();
         const content = this.currentLine.splitAtCaret();
         const newLine = new QuillLine(content);
+        const addAtIndex = this.lines.indexOf(this.currentLine) + 1;
+        this.lines.splice(addAtIndex, 0, newLine);
 
         newLine.setCaret(caret);
         this.editArea.insertBefore(newLine, this.currentLine.nextSibling);
@@ -70,7 +83,6 @@ export default class QuillBuffer extends HTMLElement {
     this.currentLine = null;
     this.file = file;
     content.forEach((line) => {
-      console.log(line);
       const newLine = new QuillLine(line);
       this.editArea.appendChild(newLine);
 
@@ -78,6 +90,7 @@ export default class QuillBuffer extends HTMLElement {
         this.currentLine = newLine;
         this.currentLine.setCaret(new QuillCaret());
       }
+      this.lines.push(newLine);
     });
   }
 }

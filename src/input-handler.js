@@ -22,7 +22,7 @@ export default class InputHandler {
           this.commands.run(`${commandKeys}-${e.key.toLowerCase()}`);
         } catch (error) {
           // Do nothing here as trying to perform an action that isn't here isn't necessarily an issue
-          // console.log(error);
+          console.log(error);
         }
       } else if (
         (!commandKeys || commandKeys === "shift") &&

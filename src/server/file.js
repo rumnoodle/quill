@@ -22,7 +22,7 @@ export function open(path) {
 }
 
 export function save(path, content) {
-  fs.writeFileSync(path, content);
+  fs.writeFileSync(path, content.split("\xa0").join(" "));
 }
 
 export function openDirectory(path) {
