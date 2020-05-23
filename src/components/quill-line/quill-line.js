@@ -27,7 +27,16 @@ export default class QuillLine extends HTMLElement {
 
   insert(string, column) {
     const fragment = Math.floor(column / 120);
-    this.lineFragments[fragment].insert(string, column % 120);
+    const overflow = this.lineFragments[fragment].insert(string, column % 120);
+
+    if (overflow) {
+      const newFragmentIndex = fragment + 1;
+      if (this.lineFragments[newFragmentIndex] === undefined) {
+        this.lineFragments.push(new QuillLineFragment());
+        this.line.appendChild(this.lineFragments[newFragmentIndex]);
+        this.lineFragments[newFragmentIndex].insert(overflow);
+      }
+    }
   }
 
   getContent() {

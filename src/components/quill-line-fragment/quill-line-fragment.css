@@ -2,3 +2,8 @@
   background-color: var(--secondary-color);
   color: var(--main-bg-color);
 }
+
+p {
+  margin: 0;
+  padding: 0;
+}

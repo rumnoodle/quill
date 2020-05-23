@@ -17,6 +17,25 @@ export default class QuillLineFragment extends HTMLElement {
       afterInput = afterInput.substring(0, -1) + this.getEOL();
     }
     this.lineFragment.innerHTML = `${beforeInput}${string}${afterInput}`;
+    return this.checkForOverflow();
+  }
+
+  checkForOverflow() {
+    const eol = this.shadowRoot.getElementById("eol");
+    let content = this.lineFragment.textContent;
+    let overflow = "";
+
+    if (content.length > 120) {
+      if (eol) {
+        content = content.substring(0, content.length - 1);
+      }
+      const contentEnd = content.lastIndexOf("\xa0");
+      this.lineFragment.textContent = content.substring(0, contentEnd);
+
+      overflow = content.substring(contentEnd);
+    }
+
+    return overflow;
   }
 
   getContent() {
