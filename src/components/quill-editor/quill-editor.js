@@ -1,5 +1,4 @@
 import QuillBuffer from "./quill-buffer-component.js";
-import QuillCaret from "./quill-caret-component.js";
 import EventBroker from "../event-broker.js";
 
 export default class QuillEditor extends HTMLElement {
@@ -10,9 +9,6 @@ export default class QuillEditor extends HTMLElement {
 
     this.buffer = new QuillBuffer();
     this.shadowRoot.appendChild(this.buffer);
-
-    const caret = new QuillCaret();
-    this.buffer.setCaret(caret);
   }
 
   getFilePath() {

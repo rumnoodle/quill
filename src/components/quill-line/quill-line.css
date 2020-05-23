@@ -3,11 +3,6 @@
   min-width: 100%;
 }
 
-quill-caret,
 div {
   display: inline-block;
-}
-
-quill-caret {
-  vertical-align: middle;
 }

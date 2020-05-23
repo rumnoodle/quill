@@ -1,5 +1,5 @@
 import QuillLine from "./quill-line-component.js";
-import QuillCaret from "./quill-caret-component.js";
+import Selection from "../selection.js";
 import EventBroker from "../event-broker.js";
 
 export default class QuillBuffer extends HTMLElement {
@@ -8,13 +8,17 @@ export default class QuillBuffer extends HTMLElement {
     this.active = true;
     this.file = "";
     this.lines = [];
-    this.currentLine = new QuillLine();
+    const line = new QuillLine();
+    this.lines.push(line);
 
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = "";
 
     this.editArea = this.shadowRoot.getElementById("editable");
-    this.editArea.appendChild(this.currentLine);
+    this.editArea.appendChild(line);
+
+    this.selection = new Selection();
+    line.setSelection(this.selection.start.column, this.selection.end.column);
 
     EventBroker.registerListener("mode", (name) => {
       this.active = name === "default" ? true : false;
@@ -43,20 +47,28 @@ export default class QuillBuffer extends HTMLElement {
     });
   }
 
+  setSelection() {
+    let currentLine = this.selection.start.line;
+    const endLine = this.selection.end.line;
+
+    while (currentLine <= endLine) {
+      this.lines[currentLine].setSelection(
+        this.selection.start.column,
+        this.selection.end.column
+      );
+      currentLine++;
+    }
+  }
+
   handleInput(key) {
+    const inputPosition = this.selection.inputPosition();
     if (this.active) {
       if (key === "Enter") {
-        const caret = this.currentLine.getCaret();
-        const content = this.currentLine.splitAtCaret();
-        const newLine = new QuillLine(content);
-        const addAtIndex = this.lines.indexOf(this.currentLine) + 1;
-        this.lines.splice(addAtIndex, 0, newLine);
-
-        newLine.setCaret(caret);
-        this.editArea.insertBefore(newLine, this.currentLine.nextSibling);
-        this.currentLine = newLine;
+        // do something
       } else {
-        this.currentLine.handleInput(key);
+        this.lines[inputPosition.line].insert(key, inputPosition.column);
+        this.selection.bumpSelection(0, 1);
+        this.setSelection();
       }
     }
   }
@@ -65,22 +77,17 @@ export default class QuillBuffer extends HTMLElement {
     if (this.active) {
       switch (action.direction) {
         case "left":
-          this.currentLine.moveCaretLeft(action.step);
+          // do something
           break;
         case "right":
-          this.currentLine.moveCaretRight(action.step);
+          // do something
           break;
       }
     }
   }
 
-  setCaret(caret) {
-    this.currentLine.setCaret(caret);
-  }
-
   loadContent({ file, content }) {
     this.editArea.innerHTML = "";
-    this.currentLine = null;
     this.file = file;
     content.forEach((line) => {
       const newLine = new QuillLine(line);
@@ -88,7 +95,6 @@ export default class QuillBuffer extends HTMLElement {
 
       if (!this.currentLine) {
         this.currentLine = newLine;
-        this.currentLine.setCaret(new QuillCaret());
       }
       this.lines.push(newLine);
     });
