@@ -3,12 +3,14 @@ export default class QuillLineFragment extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = "";
+    this.length = 1;
 
     this.lineFragment = this.shadowRoot.getElementById("line-fragment");
     this.lineFragment.innerHTML = this.getEOL();
   }
 
   insert(string, column) {
+    // console.log(string, column);
     const content = this.lineFragment.textContent;
     const beforeInput = content.substring(0, column);
     let afterInput = content.substring(column);
@@ -29,11 +31,12 @@ export default class QuillLineFragment extends HTMLElement {
       if (eol) {
         content = content.substring(0, content.length - 1);
       }
-      const contentEnd = content.lastIndexOf("\xa0");
+      const contentEnd = content.lastIndexOf("\xa0") + 1;
       this.lineFragment.textContent = content.substring(0, contentEnd);
-
       overflow = content.substring(contentEnd);
     }
+
+    this.length = this.lineFragment.textContent.length;
 
     return overflow;
   }
@@ -59,7 +62,7 @@ export default class QuillLineFragment extends HTMLElement {
     } else {
       const preSelection = textContent.substring(0, start);
       const selection = textContent.substring(start, end);
-      const postSelection = textContent.substring(end, 120);
+      const postSelection = textContent.substring(end);
       this.lineFragment.innerHTML = `${preSelection}${selection}${postSelection}`;
     }
     // console.log(`setting fragment (${start}, ${end})`);

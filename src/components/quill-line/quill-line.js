@@ -15,28 +15,48 @@ export default class QuillLine extends HTMLElement {
   }
 
   setSelection(start, end) {
-    const startFragment = Math.floor(start / 120);
-    const endFragment = Math.floor(end / 120);
+    const currentFragment = this.getFragmentPosition(start);
+    const endFragment = this.getFragmentPosition(end);
 
-    if (startFragment === endFragment) {
-      this.lineFragments[startFragment].setSelection(start % 120, end % 120);
+    if (currentFragment.index === endFragment.index) {
+      this.lineFragments[currentFragment.index].setSelection(
+        currentFragment.position,
+        endFragment.position
+      );
     } else {
       //loop them all
     }
   }
 
   insert(string, column) {
-    const fragment = Math.floor(column / 120);
-    const overflow = this.lineFragments[fragment].insert(string, column % 120);
+    const { index, position } = this.getFragmentPosition(column);
+    const overflow = this.lineFragments[index].insert(string, position);
 
     if (overflow) {
-      const newFragmentIndex = fragment + 1;
-      if (this.lineFragments[newFragmentIndex] === undefined) {
-        this.lineFragments.push(new QuillLineFragment());
-        this.line.appendChild(this.lineFragments[newFragmentIndex]);
-        this.lineFragments[newFragmentIndex].insert(overflow);
+      if (this.lineFragments[index + 1] === undefined) {
+        const newFragment = new QuillLineFragment();
+        this.lineFragments.push(newFragment);
+        this.line.appendChild(newFragment);
+        newFragment.insert(overflow, 0);
+      } else {
+        this.insert(overflow, column + string.length);
       }
     }
+  }
+
+  getFragmentPosition(column) {
+    let index = 0;
+    let lineColumns = 0;
+
+    while (true) {
+      if (lineColumns + this.lineFragments[index].length >= column) {
+        break;
+      }
+      lineColumns += this.lineFragments[index].length;
+      index++;
+    }
+
+    return { index: index, position: column - lineColumns };
   }
 
   getContent() {
