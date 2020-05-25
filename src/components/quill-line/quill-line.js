@@ -61,7 +61,7 @@ export default class QuillLine extends HTMLElement {
 
   getText() {
     let content = "";
-    for (index = 0; index < this.lineFragments.length; index++) {
+    for (let index = 0; index < this.lineFragments.length; index++) {
       content += this.lineFragments[index].getText();
     }
     return content;

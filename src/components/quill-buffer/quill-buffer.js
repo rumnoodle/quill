@@ -98,7 +98,6 @@ export default class QuillBuffer extends HTMLElement {
       this.lines.push(newLine);
       newLine.insert(line, 0);
       this.editArea.appendChild(newLine);
-      this.lines.push(newLine);
       // this.selection.bumpSelection(1, line.length - 1);
     });
 

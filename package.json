@@ -1,6 +1,6 @@
 {
   "name": "quill",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "description": "A text editor",
   "main": "main.js",
   "scripts": {

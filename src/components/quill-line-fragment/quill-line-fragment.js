@@ -43,7 +43,7 @@ export default class QuillLineFragment extends HTMLElement {
 
   getText() {
     const eol = this.shadowRoot.getElementById("eol");
-    const content = this.line.textContent;
+    const content = this.lineFragment.textContent;
     return eol !== undefined
       ? content.substring(0, content.length - 1)
       : content;
