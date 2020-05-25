@@ -59,9 +59,12 @@ export default class QuillLine extends HTMLElement {
     return { index: index, position: column - lineColumns };
   }
 
-  getContent() {
-    // content = this.line.textContent;
-    // return content;
+  getText() {
+    let content = "";
+    for (index = 0; index < this.lineFragments.length; index++) {
+      content += this.lineFragments[index].getText();
+    }
+    return content;
   }
 
   splitAtSelection() {

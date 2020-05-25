@@ -43,7 +43,7 @@ export default class QuillBuffer extends HTMLElement {
 
   getContentAsLines() {
     return this.lines.map((line) => {
-      return line.getContent();
+      return line.getText();
     });
   }
 
@@ -51,6 +51,8 @@ export default class QuillBuffer extends HTMLElement {
     let currentLine = this.selection.start.line;
     const endLine = this.selection.end.line;
 
+    // note, this won't work on multiline selections, the end column needs to be set to entire line in all but the last line and
+    // the start column needs to be set to 0 in all but the first.
     while (currentLine <= endLine) {
       this.lines[currentLine].setSelection(
         this.selection.start.column,
@@ -87,17 +89,22 @@ export default class QuillBuffer extends HTMLElement {
   }
 
   loadContent({ file, content }) {
+    this.lines = [];
     this.editArea.innerHTML = "";
     this.file = file;
-    content.forEach((line) => {
-      const newLine = new QuillLine(line);
-      this.editArea.appendChild(newLine);
 
-      if (!this.currentLine) {
-        this.currentLine = newLine;
-      }
+    content.forEach((line) => {
+      const newLine = new QuillLine();
       this.lines.push(newLine);
+      newLine.insert(line, 0);
+      this.editArea.appendChild(newLine);
+      this.lines.push(newLine);
+      // this.selection.bumpSelection(1, line.length - 1);
     });
+
+    console.log(this.selection);
+    this.selection = new Selection();
+    this.setSelection();
   }
 }
 

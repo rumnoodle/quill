@@ -10,13 +10,13 @@ export default class QuillLineFragment extends HTMLElement {
   }
 
   insert(string, column) {
-    // console.log(string, column);
     const content = this.lineFragment.textContent;
     const beforeInput = content.substring(0, column);
     let afterInput = content.substring(column);
     const eol = this.shadowRoot.getElementById("eol");
     if (eol) {
-      afterInput = afterInput.substring(0, -1) + this.getEOL();
+      afterInput =
+        afterInput.substring(0, afterInput.length - 1) + this.getEOL();
     }
     this.lineFragment.innerHTML = `${beforeInput}${string}${afterInput}`;
     return this.checkForOverflow();
@@ -41,9 +41,12 @@ export default class QuillLineFragment extends HTMLElement {
     return overflow;
   }
 
-  getContent() {
-    // content = this.line.textContent;
-    // return content;
+  getText() {
+    const eol = this.shadowRoot.getElementById("eol");
+    const content = this.line.textContent;
+    return eol !== undefined
+      ? content.substring(0, content.length - 1)
+      : content;
   }
 
   getEOL() {
@@ -62,11 +65,14 @@ export default class QuillLineFragment extends HTMLElement {
     } else {
       const preSelection = textContent.substring(0, start);
       const selection = textContent.substring(start, end);
-      const postSelection = textContent.substring(end);
-      this.lineFragment.innerHTML = `${preSelection}${selection}${postSelection}`;
+      let postSelection = textContent.substring(end);
+
+      if (eol) {
+        postSelection =
+          postSelection.substring(0, postSelection.length - 1) + this.getEOL();
+      }
+      this.lineFragment.innerHTML = `${preSelection}<span id="selection">${selection}</span>${postSelection}`;
     }
-    // console.log(`setting fragment (${start}, ${end})`);
-    // console.log(this.lineFragment.innerHTML.length);
   }
 }
 
