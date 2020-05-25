@@ -84,14 +84,23 @@ export default class QuillBuffer extends HTMLElement {
     if (this.active) {
       switch (action.direction) {
         case "left":
-          // do something
+          if (this.selection.start.column === 0) {
+            if (this.selection.start.line > 0) {
+              this.selection.unwrapLine(
+                1,
+                this.lines[this.selection.start.line - 1].length()
+              );
+            }
+          } else {
+            this.selection.bumpSelection(0, -1);
+          }
           break;
         case "right":
           if (
             this.lines[this.selection.start.line].length() <
             this.selection.start.column + 1
           ) {
-            if (this.lines[this.selection.start.line] !== undefined) {
+            if (this.lines[this.selection.start.line + 1] !== undefined) {
               this.selection.wrapLine(1);
             }
           } else {
