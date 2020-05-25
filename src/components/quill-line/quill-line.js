@@ -28,6 +28,12 @@ export default class QuillLine extends HTMLElement {
     }
   }
 
+  removeSelection() {
+    this.lineFragments.forEach((fragment) => {
+      fragment.removeSelection();
+    });
+  }
+
   insert(string, column) {
     const { index, position } = this.getFragmentPosition(column);
     const overflow = this.lineFragments[index].insert(string, position);
@@ -69,6 +75,10 @@ export default class QuillLine extends HTMLElement {
 
   splitAtSelection() {
     // do something
+  }
+
+  length() {
+    return this.getText().length;
   }
 }
 

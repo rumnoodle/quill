@@ -51,6 +51,11 @@ export default class QuillBuffer extends HTMLElement {
     let currentLine = this.selection.start.line;
     const endLine = this.selection.end.line;
 
+    // refactor this but to get it working again
+    this.lines.forEach((line) => {
+      line.removeSelection();
+    });
+
     // note, this won't work on multiline selections, the end column needs to be set to entire line in all but the last line and
     // the start column needs to be set to 0 in all but the first.
     while (currentLine <= endLine) {
@@ -82,9 +87,21 @@ export default class QuillBuffer extends HTMLElement {
           // do something
           break;
         case "right":
-          // do something
+          if (
+            this.lines[this.selection.start.line].length() <
+            this.selection.start.column + 1
+          ) {
+            if (this.lines[this.selection.start.line] !== undefined) {
+              this.selection.wrapLine(1);
+            }
+          } else {
+            this.selection.bumpSelection(0, 1);
+          }
           break;
       }
+      // console.log(this.selection.start);
+      // console.log(this.selection.end);
+      this.setSelection();
     }
   }
 
@@ -101,7 +118,6 @@ export default class QuillBuffer extends HTMLElement {
       // this.selection.bumpSelection(1, line.length - 1);
     });
 
-    console.log(this.selection);
     this.selection = new Selection();
     this.setSelection();
   }

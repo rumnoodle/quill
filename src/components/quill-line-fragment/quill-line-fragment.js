@@ -74,6 +74,18 @@ export default class QuillLineFragment extends HTMLElement {
       this.lineFragment.innerHTML = `${preSelection}<span id="selection">${selection}</span>${postSelection}`;
     }
   }
+
+  removeSelection() {
+    const eol = this.shadowRoot.getElementById("eol");
+    let textContent = this.lineFragment.textContent;
+
+    if (eol) {
+      textContent =
+        textContent.substring(0, textContent.length - 1) + this.getEOL();
+    }
+
+    this.lineFragment.innerHTML = textContent;
+  }
 }
 
 if (!customElements.get("quill-line-fragment")) {

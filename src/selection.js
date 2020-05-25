@@ -14,4 +14,11 @@ export default class QuillSelection {
     this.end.line += numberOfLines;
     this.end.column += numberOfColumns;
   }
+
+  wrapLine(numberOfLines) {
+    this.start.line += numberOfLines;
+    this.start.column = 0;
+    this.end.line += numberOfLines;
+    this.end.column = 1;
+  }
 }
